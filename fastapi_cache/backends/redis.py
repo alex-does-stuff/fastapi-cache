@@ -15,9 +15,9 @@ class RedisBackend(Backend):
         async with self.redis.pipeline(transaction=not self.is_cluster) as pipe:
             res = await pipe.ttl(key).get(key).execute()  # type: ignore[union-attr,no-any-return]
 
-        if res:
-            return res
-        return 0, None
+            if res:
+                return res
+            return 0, None
 
 
     async def get(self, key: str) -> Optional[bytes]:
